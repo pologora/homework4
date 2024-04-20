@@ -26,3 +26,5 @@ Object.defineProperty(person, 'adress', {
   writable: true,
   value: {},
 });
+
+module.exports = person;
