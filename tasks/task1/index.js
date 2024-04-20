@@ -1,4 +1,4 @@
-const { freezeProps } = require('./helpers');
+const { makePropsReadOnly } = require('./helpers');
 
 const person = {
   firstName: 'John',
@@ -7,17 +7,25 @@ const person = {
   email: 'john.doe@example.com',
 };
 
-freezeProps(person);
+makePropsReadOnly(person);
 
 Object.defineProperty(person, 'updateInfo', {
   enumerable: true,
+  configurable: true,
   value(info) {
     Object.entries(info).forEach(([key, value]) => {
-      if (this[key] && Object.getOwnPropertyDescriptor(this, key).writable) {
-        this[key] = value;
-      } else {
-        throw new Error(`Object property ${key} does not exist or close for updates`);
+      if (!this[key]) {
+        throw new Error(`No such property ${key} in object`);
       }
+
+      const descriptor = Object.getOwnPropertyDescriptor(this, key);
+      if (descriptor.configurable === false && descriptor.writable === false) {
+        throw new Error(`Object property ${key} is closed for edition`);
+      }
+
+      Object.defineProperty(this, key, {
+        value,
+      });
     });
   },
 });

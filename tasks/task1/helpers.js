@@ -1,10 +1,10 @@
-function freezeProps(object) {
+function makePropsReadOnly(object) {
   Object.keys(object).forEach((key) => {
     Object.defineProperty(object, key, {
-      configurable: false,
+      configurable: true,
       writable: false,
     });
   });
 }
 
-module.exports = { freezeProps };
+module.exports = { makePropsReadOnly };
