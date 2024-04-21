@@ -1,13 +1,21 @@
-function deepCloneObject(obj) {
+function deepCloneObject(obj, cloneObject = new WeakMap()) {
   if (Array.isArray(obj)) {
-    return obj.map(deepCloneObject);
+    return obj.map((item) => deepCloneObject(item, cloneObject));
   }
 
   if (typeof obj === 'object' && obj !== null) {
-    return Object.keys(obj).reduce((acc, key) => {
-      acc[key] = deepCloneObject(obj[key]);
-      return acc;
-    }, {});
+    if (cloneObject.has(obj)) {
+      return cloneObject.get(obj);
+    }
+
+    const clone = {};
+    cloneObject.set(obj, clone);
+
+    Object.keys(obj).forEach((key) => {
+      clone[key] = deepCloneObject(obj[key], cloneObject);
+    });
+
+    return clone;
   }
 
   return obj;
