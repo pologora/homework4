@@ -25,14 +25,14 @@ const isValid = validateObject(user, schema);
 console.log(isValid); // Output: true
 ```
 
-## What could be validated
+## What could be validated:
 
 - object property type:
 
   - string
   - number
   - object
-  - bigInt
+  - bigint
   - function
   - array
   - boolean
