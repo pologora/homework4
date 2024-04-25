@@ -9,6 +9,8 @@ function createImmutableObject(obj) {
     return Object.keys(obj).reduce((acc, key) => {
       Object.defineProperty(acc, key, {
         enumerable: true,
+        writable: false,
+        configurable: false,
         value: createImmutableObject(obj[key]),
       });
 

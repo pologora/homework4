@@ -10,10 +10,12 @@ Object.defineProperties(product, {
   price: {
     enumerable: false,
     writable: false,
+    configurable: false,
   },
   quantity: {
     enumerable: false,
     writable: false,
+    configurable: false,
   },
 });
 
